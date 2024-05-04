@@ -5,11 +5,11 @@ import torch
 
 app = Flask(__name__)
 
-# Load the trained model
+# this step is to load the trained model
 model = torch.load("C:/Users/User/OneDrive/Documents/Spring Capstone 2024/Model Path/vit_model_path.pth")
 model.eval()
 
-# Define image preprocessing transformations
+# performs image preprocessing of the image uploaded
 preprocess = transforms.Compose([
     transforms.Resize(150),
     transforms.CenterCrop(128),
@@ -20,39 +20,34 @@ preprocess = transforms.Compose([
 
 @app.route('/')
 def index():
-    return render_template('updated frontend.html')  # Render the HTML file
+    return render_template('frontend updates.html')  # it will render the html page
 
-@app.route('/process-image', methods=['POST'])
+@app.route('/process-image', methods=['POST'])  
 def process_image():
-    # Check if an image was uploaded
+    # Check for the image uploaded in the user interface
     if 'image' not in request.files:
         return jsonify({'error': 'No image uploaded'}), 400
     
-    # Read the uploaded image
     image_file = request.files['image']
-    
-    # Convert the image to PIL format
     image = Image.open(image_file)
     
-    # Preprocess the image
+    # Preprocessing the image
     input_tensor = preprocess(image)
     input_batch = input_tensor.unsqueeze(0)
     
-    # Perform inference using the trained model
     with torch.no_grad():
         output = model(input_batch)
         _, predicted = torch.max(output, 1)
     
-    # Interpret the prediction result
     if predicted.item() == 0:
         result = 'Normal (No pneumonia detected)'
     else:
-        result = 'Pneumonia detected'''
+        result = 'Pneumonia detected'
     
     #result = 'Normal (No pneumonia detected)'
     
-    # Return the result to the frontend
+    # Return the result back to the frontend as respnse
     return jsonify({'result': result}), 200
 
 if __name__ == '__main__':
-    app.run(debug=True)  # Run the Flask app in debug mode
+    app.run(debug=True)
