@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pneumonia Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        #upload-container {
+            border: 3px solid black;
+            padding: 3px;
+            margin: 20px auto;
+            max-width: 380px;
+            cursor: pointer;
+            color:black;
+            font-size:20px;
+            background-color:#00FFFF;
+        }
+        #upload-container:hover {
+            border-color: #007bff;
+            color:black;
+        }
+        #result-container {
+            margin-top: 20px;
+            font-size: 18px;
+            display: none; 
+            padding: 10px;
+            max-width: 380px;
+            margin: 0 auto;
+        }
+        #uploaded-image {
+            max-width: 500px;
+            margin-top: 20px;
+            border: 3px solid black;
+            padding: 1px;
+            margin: 50px auto;
+            cursor: pointer;
+            color:black;
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pneumonia Detection</h1>
+    <p>Upload your X-ray image to detect pneumonia:</p>
+
+    <div id="upload-container">
+        <input type="file" id="upload-input" accept=".jpg, .jpeg, .png" style="display: none;">
+        <label for="upload-input"><h2>Click here to upload</h2></label>
+    </div>
+
+    <img id="uploaded-image" style="display: none;">
+
+    <div id="result-container"></div>
+
+    <script>
+        document.getElementById('upload-input').addEventListener('change', function() {
+            const file = this.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    const uploadedImage = new Image();
+                    uploadedImage.src = e.target.result;
+
+                    uploadedImage.onload = function() {
+                        // Show loading message while waiting for response
+                        const resultContainer = document.getElementById('result-container');
+                        resultContainer.textContent = 'Processing image...';
+                        resultContainer.style.display = 'block';
+
+                        // Show the uploaded image
+                        const uploadedImageElement = document.getElementById('uploaded-image');
+                        uploadedImageElement.src = uploadedImage.src;
+                        uploadedImageElement.style.display = 'block';
+
+                        // Send image data to backend for processing
+                        const formData = new FormData();
+                        formData.append('image', file);
+
+                        fetch('http://127.0.0.1:5000/process-image', {
+                            method: 'POST',
+                            body: formData
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(result => {
+                            // Display result on the webpage
+                            const resultText = result.result;
+                            resultContainer.textContent = resultText;
+
+                            // Update styling based on result
+                            if (resultText.includes('Pneumonia detected')) {
+                                resultContainer.style.backgroundColor = 'red';
+                                resultContainer.style.color = 'white';
+                            } else {
+                                resultContainer.style.backgroundColor = 'green';
+                                resultContainer.style.color = 'white';
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            resultContainer.textContent = 'Error processing image. Please try again.';
+                        });
+                    };
+                };
+
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+</html>
