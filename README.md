@@ -42,7 +42,7 @@ This **capstone project** aims to develop a **deep-learning model** to detect pn
 ##  **Installation & Setup**
 ### **1️⃣ Clone the Repository**
 ```sh
-git clone https://github.com/SampathKumarKolichalam/Pneumonia-Detection-ViT.git
+git clone https://github.com/SampathKumarKolichalam/Capstone---Team_2.git
 cd Pneumonia-Detection-ViT
 ```
 
