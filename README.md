@@ -1,9 +1,9 @@
 ### 🩺 **Pneumonia Disease Detection Using Vision Transformers**  
  **AI-powered medical imaging system for pneumonia detection using deep learning!** 
-<p align="center">
-  <img src="![image](https://github.com/user-attachments/assets/49f772bf-9c4a-453a-994c-d002b8e2635e)" width="45%" />
-  <img src="![image](https://github.com/user-attachments/assets/2a17fb5c-9c42-46e0-9b36-66d413d45c05)" width="45%" />
-</p>
+![image](https://github.com/user-attachments/assets/49f772bf-9c4a-453a-994c-d002b8e2635e)" 
+
+![image](https://github.com/user-attachments/assets/2a17fb5c-9c42-46e0-9b36-66d413d45c05)" 
+
    
  ---
 
