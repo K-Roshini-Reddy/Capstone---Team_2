@@ -111,7 +111,7 @@ POST /predict
 Fork the repo, make your changes, and submit a pull request!  
 
 ```sh
-git clone https://github.com/yourusername/Pneumonia-Detection-ViT.git
+git clone https://github.com/SampathKumarKolichalam/Capstone---Team_2.git
 git checkout -b feature-branch
 git commit -m "Added new feature"
 git push origin feature-branch
