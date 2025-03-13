@@ -120,7 +120,7 @@ git push origin feature-branch
 ---
 
 ## 📜 **License**
-This project is free and access to all*. Feel free to use and modify it.  
+This project is free and access to all. Feel free to use and modify it.  
 
 ---
 
